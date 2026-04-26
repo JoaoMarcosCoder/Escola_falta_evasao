@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ aluno.nome }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; background: #f5f5f5; }
+        h1, h2 { color: #333; }
+
+        .caixa {
+            background: white; border: 1px solid #ccc;
+            padding: 20px; max-width: 520px;
+            border-radius: 6px; margin-bottom: 20px;
+        }
+        .caixa p { font-size: 16px; margin: 8px 0; }
+
+        .risco {
+            font-size: 22px; font-weight: bold;
+            padding: 10px 16px; border-radius: 6px;
+            display: inline-block; margin-top: 10px;
+        }
+        .VERDE    { background: #c8f7c5; color: green; }
+        .AMARELO  { background: #fef9c3; color: #b8860b; }
+        .VERMELHO { background: #fdd;    color: red; }
+
+        .acao {
+            margin-top: 15px; padding: 12px;
+            border-left: 4px solid #888;
+            background: #f9f9f9; font-size: 15px;
+        }
+
+        .alerta-critico {
+            background: #fdd; border: 2px solid red;
+            border-radius: 6px; padding: 12px;
+            margin-bottom: 14px; font-weight: bold; color: red;
+        }
+
+        .nota-linha { padding: 5px 0; font-size: 15px; }
+        .nota-subiu  { color: green; }
+        .nota-caiu   { color: red; }
+        .nota-igual  { color: #b8860b; }
+        .nota-falta  { color: #aaa; }
+
+        .badge-media {
+            display: inline-block;
+            background: #e8f4fd; border: 1px solid #2980b9;
+            border-radius: 12px; padding: 3px 10px;
+            font-size: 13px; margin: 3px 2px;
+            color: #1a5276;
+        }
+
+        a { color: #3498db; }
+        .btn-cinza {
+            padding: 8px 16px; background: #95a5a6; color: white;
+            border: none; border-radius: 4px; cursor: pointer;
+            font-size: 14px; text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<h1>📋 {{ aluno.nome }}</h1>
+
+<!-- CAIXA 1: Dados gerais e risco -->
+<div class="caixa">
+    <h2>Situação Geral</h2>
+    <p><b>Frequência:</b> {{ aluno.frequencia }}%</p>
+    <p><b>Ocorrências:</b> {{ aluno.ocorrencias }}</p>
+    <p><b>Baixa renda:</b> {{ "Sim" if aluno.baixa_renda else "Não" }}</p>
+    <p><b>Trabalha:</b>    {{ "Sim" if aluno.trabalha    else "Não" }}</p>
+
+    <p><b>Classificação de Risco:</b></p>
+    <div class="risco {{ aluno.risco }}">
+        {% if aluno.risco == "VERDE" %}    🟢 VERDE
+        {% elif aluno.risco == "AMARELO" %} 🟡 AMARELO
+        {% else %}                          🔴 VERMELHO
+        {% endif %}
+    </div>
+
+    <div class="acao">
+        {% if aluno.risco == "VERDE" %}
+            ✅ Manter acompanhamento padrão.
+        {% elif aluno.risco == "AMARELO" %}
+            ⚠️ Conversar com o aluno e contatar a família.
+        {% else %}
+            🚨 Busca ativa imediata e acionamento do Conselho Tutelar.
+        {% endif %}
+    </div>
+</div>
+
+<!-- CAIXA 2: Análise de notas -->
+<div class="caixa">
+    <h2>📈 Acompanhamento de Notas</h2>
+
+    {% if aluno.analise.alerta_critico %}
+    <div class="alerta-critico">
+        🚨 ALERTA: 3 ou mais quedas consecutivas detectadas! Intervenção imediata recomendada.
+    </div>
+    {% endif %}
+
+    <p>
+        <b>Média real (sem faltas):</b> {{ aluno.analise.media_real }}
+    </p>
+
+    <p>
+        <b>Tendência:</b>
+        {% if aluno.analise.tendencia == "MELHORANDO" %}
+            <span style="color:green; font-weight:bold">⬆️ MELHORANDO</span>
+        {% elif aluno.analise.tendencia == "PIORANDO" %}
+            <span style="color:red; font-weight:bold">⬇️ PIORANDO</span>
+        {% else %}
+            <span style="color:#b8860b; font-weight:bold">➡️ ESTÁVEL</span>
+        {% endif %}
+    </p>
+
+    <br>
+    <b>Histórico nota a nota:</b>
+    {% for i in range(aluno.notas | length) %}
+        {% set nota = aluno.notas[i] %}
+        {% if nota == 0 %}
+            <div class="nota-linha nota-falta">
+                Nota {{ i + 1 }}: — falta
+            </div>
+        {% else %}
+            {% set anterior = 0 %}
+            {% for j in range(i - 1, -1, -1) %}
+                {% if anterior == 0 and aluno.notas[j] != 0 %}
+                    {% set anterior = aluno.notas[j] %}
+                {% endif %}
+            {% endfor %}
+
+            {% if anterior == 0 or nota == anterior %}
+                <div class="nota-linha nota-igual">
+                    Nota {{ i + 1 }}: {{ nota }} ➡️
+                </div>
+            {% elif nota > anterior %}
+                <div class="nota-linha nota-subiu">
+                    Nota {{ i + 1 }}: {{ nota }} ⬆️
+                </div>
+            {% else %}
+                <div class="nota-linha nota-caiu">
+                    Nota {{ i + 1 }}: {{ nota }} ⬇️
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+    <br>
+    <b>Médias progressivas:</b><br>
+    {% for media in aluno.analise.medias_progressivas %}
+        <span class="badge-media">
+            Após {{ loop.index }} nota(s): {{ media }}
+        </span>
+    {% endfor %}
+</div>
+
+<a href="/" class="btn-cinza">← Voltar para a lista</a>
+
+</body>
+</html>
