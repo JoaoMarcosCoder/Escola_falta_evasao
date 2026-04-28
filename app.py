@@ -3,11 +3,9 @@ import pandas as pd
 
 app = Flask(__name__)
 
-PLANILHA = "Media_Alunos.xlsx"
+PLANILHA = "Media_Alunos.escola.xlsx"
 
-# -----------------------------------------------
 # Lê a planilha e retorna lista de alunos
-# -----------------------------------------------
 def ler_alunos():
     df = pd.read_excel(PLANILHA)
     alunos = []
@@ -16,7 +14,7 @@ def ler_alunos():
 
         # Pega as notas usando range
         notas = []
-        for numero in range(1, 7):          # range(1,7) → 1,2,3,4,5,6
+        for numero in range(1, 10):          # range(1,7) → 1,2,3,4,5,6
             coluna = "Nota" + str(numero)
             if coluna in df.columns:
                 notas.append(float(linha[coluna]))
@@ -36,10 +34,6 @@ def ler_alunos():
     return alunos
 
 
-# -----------------------------------------------
-# ALGORITMO 1 — Classificação de Risco (PBL 2)
-# Usa: if, elif, else, and, or
-# -----------------------------------------------
 def classificar_risco(media, frequencia, ocorrencias, baixa_renda, trabalha):
 
     # VERMELHO - situações críticas
@@ -69,20 +63,17 @@ def classificar_risco(media, frequencia, ocorrencias, baixa_renda, trabalha):
     return "VERDE"
 
 
-# -----------------------------------------------
-# ALGORITMO 2 — Análise de Notas (PBL 3)
-# Usa: for, range, break, continue
-# -----------------------------------------------
+
 def analisar_notas(notas):
 
-    # PASSO 1: Calcular média real ignorando zeros (faltas)
+    # Calcular média real ignorando zeros (faltas)
     # O continue pula a nota zero e vai para a próxima
     soma    = 0
     validas = 0
 
     for nota in notas:
         if nota == 0:
-            continue        # ← pula o zero (falta), não entra na soma
+            continue        
         soma    = soma + nota
         validas = validas + 1
 
@@ -91,18 +82,18 @@ def analisar_notas(notas):
     else:
         media_real = 0
 
-    # PASSO 2: Calcular médias progressivas
-    # A cada nota válida, calcula a média até aquele momento
+    # Calculo médias progressivas
+    # A cada nota válida calcula a média até aquele momento
     medias_progressivas = []
 
-    for i in range(len(notas)):             # range(len(notas)) → 0,1,2,3,4,5
+    for i in range(len(notas)):             
         if notas[i] == 0:
-            continue                        # ← pula falta aqui também
+            continue                        
 
         soma_ate  = 0
         count_ate = 0
 
-        for j in range(i + 1):             # ← for dentro de for (loop aninhado)
+        for j in range(i + 1):             
             if notas[j] == 0:
                 continue
             soma_ate  = soma_ate + notas[j]
@@ -111,7 +102,7 @@ def analisar_notas(notas):
         media_ate = round(soma_ate / count_ate, 1)
         medias_progressivas.append(media_ate)
 
-    # PASSO 3: Detectar quedas consecutivas
+    # Detectando quedas consecutivas
     # O break para o loop quando encontra 3 quedas seguidas
     notas_validas   = []
     quedas_seguidas = 0
@@ -123,18 +114,18 @@ def analisar_notas(notas):
             notas_validas.append(nota)
 
     # Agora percorre as notas válidas procurando quedas
-    for i in range(1, len(notas_validas)):  # range(1, len) → começa em 1
+    for i in range(1, len(notas_validas)):  
         if notas_validas[i] < notas_validas[i - 1]:
             quedas_seguidas = quedas_seguidas + 1
 
             if quedas_seguidas >= 3:
                 alerta_critico = True
-                break           # ← para o loop: encontrou 3 quedas seguidas!
+                break           
 
         else:
-            quedas_seguidas = 0 # reinicia se não caiu
+            quedas_seguidas = 0 
 
-    # PASSO 4: Identificar tendência
+    # Identificando tendência
     tendencia = "ESTÁVEL"
 
     if len(notas_validas) >= 2:
@@ -155,9 +146,6 @@ def analisar_notas(notas):
     }
 
 
-# -----------------------------------------------
-# PÁGINA PRINCIPAL — lista todos os alunos
-# -----------------------------------------------
 @app.route("/")
 def index():
     alunos = ler_alunos()
@@ -175,9 +163,7 @@ def index():
     return render_template("index.html", alunos=alunos)
 
 
-# -----------------------------------------------
-# DETALHE de um aluno
-# -----------------------------------------------
+
 @app.route("/aluno/<int:indice>")
 def ver_aluno(indice):
     alunos = ler_alunos()
@@ -192,16 +178,14 @@ def ver_aluno(indice):
     return render_template("aluno.html", aluno=aluno)
 
 
-# -----------------------------------------------
-# CADASTRAR novo aluno
-# -----------------------------------------------
+
 @app.route("/novo", methods=["GET", "POST"])
 def novo_aluno():
     if request.method == "POST":
         df = pd.read_excel(PLANILHA)
 
         notas = []
-        for numero in range(1, 7):
+        for numero in range(1, 10):
             valor = request.form.get("nota" + str(numero), "")
             if valor == "":
                 notas.append(0.0)
@@ -228,9 +212,6 @@ def novo_aluno():
     return render_template("novo.html")
 
 
-# -----------------------------------------------
-# EXCLUIR aluno
-# -----------------------------------------------
 @app.route("/excluir/<int:indice>")
 def excluir_aluno(indice):
     df = pd.read_excel(PLANILHA)
@@ -239,14 +220,5 @@ def excluir_aluno(indice):
     return redirect("/")
 
 
-# -----------------------------------------------
-# FLUXOGRAMA
-# -----------------------------------------------
-@app.route("/fluxograma")
-def fluxograma():
-    return render_template("fluxograma.html")
-
-
-# -----------------------------------------------
 if __name__ == "__main__":
     app.run(debug=True)
