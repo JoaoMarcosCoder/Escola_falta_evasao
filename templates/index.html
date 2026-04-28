@@ -31,10 +31,10 @@
 </head>
 <body>
 
-<h1>🏫 Escola Municipal Esperança</h1>
+<h1>Escola Municipal Esperança</h1>
 <p>Sistema de Acompanhamento Escolar — risco de evasão e análise de notas</p>
 
-<a href="/novo"        class="btn btn-verde">➕ Novo Aluno</a>
+<a href="/novo"        class="btn btn-verde">Novo Aluno</a>
 
 
 <br><br>
@@ -58,15 +58,15 @@
             {% endif %}
         </td>
         <td class="{{ aluno.risco }}">
-            {% if aluno.risco == "VERDE" %}    🟢 VERDE
-            {% elif aluno.risco == "AMARELO" %} 🟡 AMARELO
-            {% else %}                          🔴 VERMELHO
+            {% if aluno.risco == "VERDE" %}     VERDE
+            {% elif aluno.risco == "AMARELO" %} AMARELO
+            {% else %}                          VERMELHO
             {% endif %}
         </td>
         <td class="{{ aluno.analise.tendencia }}">
-            {% if aluno.analise.tendencia == "MELHORANDO" %}  ⬆️ MELHORANDO
-            {% elif aluno.analise.tendencia == "PIORANDO" %}  ⬇️ PIORANDO
-            {% else %}                                         ➡️ ESTÁVEL
+            {% if aluno.analise.tendencia == "MELHORANDO" %}   MELHORANDO
+            {% elif aluno.analise.tendencia == "PIORANDO" %}   PIORANDO
+            {% else %}                                         ESTÁVEL
             {% endif %}
         </td>
         <td>

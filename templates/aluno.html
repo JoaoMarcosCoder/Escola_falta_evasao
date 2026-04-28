@@ -71,30 +71,30 @@
 
     <p><b>Classificação de Risco:</b></p>
     <div class="risco {{ aluno.risco }}">
-        {% if aluno.risco == "VERDE" %}    🟢 VERDE
-        {% elif aluno.risco == "AMARELO" %} 🟡 AMARELO
-        {% else %}                          🔴 VERMELHO
+        {% if aluno.risco == "VERDE" %}     VERDE
+        {% elif aluno.risco == "AMARELO" %}  AMARELO
+        {% else %}                           VERMELHO
         {% endif %}
     </div>
 
     <div class="acao">
         {% if aluno.risco == "VERDE" %}
-            ✅ Manter acompanhamento padrão.
+            Manter acompanhamento padrão.
         {% elif aluno.risco == "AMARELO" %}
-            ⚠️ Conversar com o aluno e contatar a família.
+            Conversar com o aluno e contatar a família.
         {% else %}
-            🚨 Busca ativa imediata e acionamento do Conselho Tutelar.
+            Busca ativa imediata e acionamento do Conselho Tutelar.
         {% endif %}
     </div>
 </div>
 
 <!-- CAIXA 2: Análise de notas -->
 <div class="caixa">
-    <h2>📈 Acompanhamento de Notas</h2>
+    <h2>Acompanhamento de Notas</h2>
 
     {% if aluno.analise.alerta_critico %}
     <div class="alerta-critico">
-        🚨 ALERTA: 3 ou mais quedas consecutivas detectadas! Intervenção imediata recomendada.
+        ALERTA: 3 ou mais quedas consecutivas detectadas! Intervenção imediata recomendada.
     </div>
     {% endif %}
 
@@ -105,11 +105,11 @@
     <p>
         <b>Tendência:</b>
         {% if aluno.analise.tendencia == "MELHORANDO" %}
-            <span style="color:green; font-weight:bold">⬆️ MELHORANDO</span>
+            <span style="color:green; font-weight:bold"> MELHORANDO</span>
         {% elif aluno.analise.tendencia == "PIORANDO" %}
-            <span style="color:red; font-weight:bold">⬇️ PIORANDO</span>
+            <span style="color:red; font-weight:bold"> PIORANDO</span>
         {% else %}
-            <span style="color:#b8860b; font-weight:bold">➡️ ESTÁVEL</span>
+            <span style="color:#b8860b; font-weight:bold"> ESTÁVEL</span>
         {% endif %}
     </p>
 
@@ -131,15 +131,15 @@
 
             {% if anterior == 0 or nota == anterior %}
                 <div class="nota-linha nota-igual">
-                    Nota {{ i + 1 }}: {{ nota }} ➡️
+                    Nota {{ i + 1 }}: {{ nota }}
                 </div>
             {% elif nota > anterior %}
                 <div class="nota-linha nota-subiu">
-                    Nota {{ i + 1 }}: {{ nota }} ⬆️
+                    Nota {{ i + 1 }}: {{ nota }} 
                 </div>
             {% else %}
                 <div class="nota-linha nota-caiu">
-                    Nota {{ i + 1 }}: {{ nota }} ⬇️
+                    Nota {{ i + 1 }}: {{ nota }} 
                 </div>
             {% endif %}
         {% endif %}
