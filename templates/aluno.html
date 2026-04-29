@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <title>{{ aluno.nome }}</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 30px; background: #f5f5f5; }
-        h1, h2 { color: #333; }
+        body { font-size: 16px; font-family: Arial, sans-serif; margin: 30px; background: #f8f9fa; }
+        h1, h2 { color: #111184; }
 
         .caixa {
             background: white; border: 1px solid #ccc;
-            padding: 20px; max-width: 520px;
+            padding: 20px; max-width: 600px;
             border-radius: 6px; margin-bottom: 20px;
         }
-        .caixa p { font-size: 16px; margin: 8px 0; }
+        .caixa p { font-size: 18px; margin: 8px 0; }
 
         .risco {
             font-size: 22px; font-weight: bold;
@@ -25,41 +25,43 @@
 
         .acao {
             margin-top: 15px; padding: 12px;
-            border-left: 4px solid #888;
-            background: #f9f9f9; font-size: 15px;
+            border-left: 4px solid #111184;
+            background: #f9f9f9; font-size: 16px;
         }
 
         .alerta-critico {
             background: #fdd; border: 2px solid red;
-            border-radius: 6px; padding: 12px;
+            border-radius: 6px; padding: 15px;
             margin-bottom: 14px; font-weight: bold; color: red;
         }
 
-        .nota-linha { padding: 5px 0; font-size: 15px; }
+        .nota-linha { padding: 8px 0; font-size: 15px; }
         .nota-subiu  { color: green; }
         .nota-caiu   { color: red; }
-        .nota-igual  { color: #b8860b; }
+        .nota-igual  { color: #000000; }
         .nota-falta  { color: #aaa; }
 
         .badge-media {
             display: inline-block;
-            background: #e8f4fd; border: 1px solid #2980b9;
-            border-radius: 12px; padding: 3px 10px;
-            font-size: 13px; margin: 3px 2px;
-            color: #1a5276;
+            background: #e7f0ff; border: 1px solid #050709;
+            border-radius: 5px; padding: 5px 10px;
+            font-size: 15px; margin: 3px 2px;
+            color: #050709;
         }
 
-        a { color: #3498db; }
-        .btn-cinza {
-            padding: 8px 16px; background: #95a5a6; color: white;
-            border: none; border-radius: 4px; cursor: pointer;
-            font-size: 14px; text-decoration: none;
+        a {
+            text-decoration-line: none;
+             margin-top: 30px; padding: 10px 20px;
+             background: #111184; color: white;
+             border: none; border-radius: 4px;
+             font-size: 16px; cursor: pointer; font-weight: normal;  
+             color: #ffffff;
         }
     </style>
 </head>
 <body>
 
-<h1>📋 {{ aluno.nome }}</h1>
+<h1> {{ aluno.nome }}</h1>
 
 <!-- CAIXA 1: Dados gerais e risco -->
 <div class="caixa">
@@ -71,9 +73,9 @@
 
     <p><b>Classificação de Risco:</b></p>
     <div class="risco {{ aluno.risco }}">
-        {% if aluno.risco == "VERDE" %}     VERDE
-        {% elif aluno.risco == "AMARELO" %}  AMARELO
-        {% else %}                           VERMELHO
+        {% if aluno.risco == "VERDE" %}     BAIXO
+        {% elif aluno.risco == "AMARELO" %}  MODERADO
+        {% else %}                           ALTO
         {% endif %}
     </div>
 
@@ -88,7 +90,6 @@
     </div>
 </div>
 
-<!-- CAIXA 2: Análise de notas -->
 <div class="caixa">
     <h2>Acompanhamento de Notas</h2>
 
@@ -99,7 +100,7 @@
     {% endif %}
 
     <p>
-        <b>Média real (sem faltas):</b> {{ aluno.analise.media_real }}
+        <b>Média real (Sem faltas):</b> {{ aluno.analise.media_real }}
     </p>
 
     <p>
@@ -114,12 +115,12 @@
     </p>
 
     <br>
-    <b>Histórico nota a nota:</b>
+    <b>Histórico Mensal:</b>
     {% for i in range(aluno.notas | length) %}
         {% set nota = aluno.notas[i] %}
         {% if nota == 0 %}
             <div class="nota-linha nota-falta">
-                Nota {{ i + 1 }}: — falta
+                Nota {{ i + 1 }}: Faltou
             </div>
         {% else %}
             {% set anterior = 0 %}
@@ -146,15 +147,15 @@
     {% endfor %}
 
     <br>
-    <b>Médias progressivas:</b><br>
+    <b>Médias por Nota:</b><br>
     {% for media in aluno.analise.medias_progressivas %}
         <span class="badge-media">
-            Após {{ loop.index }} nota(s): {{ media }}
+            {{ loop.index }}° Nota: {{ media }}
         </span>
     {% endfor %}
 </div>
 
-<a href="/" class="btn-cinza">← Voltar para a lista</a>
+<a href="/" class="btn-azul"> Voltar para a lista</a>
 
 </body>
 </html>

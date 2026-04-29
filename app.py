@@ -5,7 +5,6 @@ app = Flask(__name__)
 
 PLANILHA = "Media_Alunos.escola.xlsx"
 
-# Lê a planilha e retorna lista de alunos
 def ler_alunos():
     df = pd.read_excel(PLANILHA)
     alunos = []
@@ -14,7 +13,7 @@ def ler_alunos():
 
         # Pega as notas usando range
         notas = []
-        for numero in range(1, 10):          # range(1,7) → 1,2,3,4,5,6
+        for numero in range(1,7):          
             coluna = "Nota" + str(numero)
             if coluna in df.columns:
                 notas.append(float(linha[coluna]))
@@ -63,7 +62,6 @@ def classificar_risco(media, frequencia, ocorrencias, baixa_renda, trabalha):
     return "VERDE"
 
 
-
 def analisar_notas(notas):
 
     # Calcular média real ignorando zeros (faltas)
@@ -73,6 +71,7 @@ def analisar_notas(notas):
 
     for nota in notas:
         if nota == 0:
+            validas = validas + 1
             continue        
         soma    = soma + nota
         validas = validas + 1
@@ -85,20 +84,15 @@ def analisar_notas(notas):
     # Calculo médias progressivas
     # A cada nota válida calcula a média até aquele momento
     medias_progressivas = []
+    soma_ate            = 0
+    count_ate           = 0
 
-    for i in range(len(notas)):             
-        if notas[i] == 0:
-            continue                        
+    for nota in notas:
+        if nota == 0:
+            continue
 
-        soma_ate  = 0
-        count_ate = 0
-
-        for j in range(i + 1):             
-            if notas[j] == 0:
-                continue
-            soma_ate  = soma_ate + notas[j]
-            count_ate = count_ate + 1
-
+        soma_ate  = soma_ate + nota
+        count_ate = count_ate + 1
         media_ate = round(soma_ate / count_ate, 1)
         medias_progressivas.append(media_ate)
 
@@ -126,16 +120,24 @@ def analisar_notas(notas):
             quedas_seguidas = 0 
 
     # Identificando tendência
-    tendencia = "ESTÁVEL"
+    if len(notas_validas) < 2:
+        tendencia = "ESTÁVEL"
+    else:
+        subidas = 0
+        quedas  = 0
 
-    if len(notas_validas) >= 2:
-        primeira = notas_validas[0]
-        ultima   = notas_validas[-1]
+        for i in range(1, len(notas_validas)):
+            if notas_validas[i] > notas_validas[i - 1]:
+                subidas = subidas + 1
+            elif notas_validas[i] < notas_validas[i - 1]:
+                quedas = quedas + 1
 
-        if ultima > primeira:
+        if subidas > quedas:
             tendencia = "MELHORANDO"
-        elif ultima < primeira:
+        elif quedas > subidas:
             tendencia = "PIORANDO"
+        else:
+            tendencia = "ESTÁVEL"
 
     return {
         "media_real"          : media_real,
@@ -163,7 +165,6 @@ def index():
     return render_template("index.html", alunos=alunos)
 
 
-
 @app.route("/aluno/<int:indice>")
 def ver_aluno(indice):
     alunos = ler_alunos()
@@ -178,14 +179,13 @@ def ver_aluno(indice):
     return render_template("aluno.html", aluno=aluno)
 
 
-
 @app.route("/novo", methods=["GET", "POST"])
 def novo_aluno():
     if request.method == "POST":
         df = pd.read_excel(PLANILHA)
 
         notas = []
-        for numero in range(1, 10):
+        for numero in range(1,7):
             valor = request.form.get("nota" + str(numero), "")
             if valor == "":
                 notas.append(0.0)
@@ -210,14 +210,6 @@ def novo_aluno():
         return redirect("/")
 
     return render_template("novo.html")
-
-
-@app.route("/excluir/<int:indice>")
-def excluir_aluno(indice):
-    df = pd.read_excel(PLANILHA)
-    df = df.drop(index=indice).reset_index(drop=True)
-    df.to_excel(PLANILHA, index=False)
-    return redirect("/")
 
 
 if __name__ == "__main__":

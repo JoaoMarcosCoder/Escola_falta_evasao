@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <title>Novo Aluno</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 30px; background: #f5f5f5; }
-        h1   { color: #333; }
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+        h1   { color: #111184; }
 
         .formulario {
             background: white; border: 1px solid #ccc;
-            padding: 20px; max-width: 460px; border-radius: 6px;
+            padding: 20px; max-width: 560px; border-radius: 6px;
         }
-        label { display: block; margin-top: 12px; font-weight: bold; }
+        label { display: block; margin-top: 16px; font-size: 15px; font-weight: bold; }
         input[type="text"], input[type="number"] {
             width: 100%; padding: 8px; margin-top: 4px;
             box-sizing: border-box; border: 1px solid #ccc;
-            border-radius: 4px; font-size: 15px;
+            border-radius: 6px; font-size: 15px;
         }
         .linha-check { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
 
@@ -26,12 +26,17 @@
         .grade-grid input { text-align: center; }
 
         input[type="submit"] {
-            margin-top: 20px; padding: 10px 20px;
-            background: #2ecc71; color: white;
+            margin-top: 40px; padding: 10px 20px;
+            background: #111184; color: white;
             border: none; border-radius: 4px;
-            font-size: 16px; cursor: pointer;
+            font-size: 16px; cursor: pointer; font-weight: normal;
         }
-        a { color: #3498db; }
+        a {
+             text-decoration-line: none;
+             margin-top: 30px; padding: 10px 20px;
+             background: #111184; color: white;
+             border: none; border-radius: 4px;
+             font-size: 16px; cursor: pointer; font-weight: normal; }
     </style>
 </head>
 <body>
@@ -45,21 +50,21 @@
         <input type="text" name="nome" required>
 
         <label>Frequência (%):</label>
-        <input type="number" name="frequencia" min="0" max="100" step="0.1" required>
+        <input type="number" name="frequencia" min="0" max="100" step="1.0" required>
 
         <label>Ocorrências disciplinares:</label>
         <input type="number" name="ocorrencias" min="0" value="0" required>
 
         <div class="linha-check">
             <input type="checkbox" name="baixa_renda" id="baixa_renda">
-            <label for="baixa_renda" style="margin:0; font-weight:normal">Família de baixa renda</label>
+            <label for="baixa_renda" style="margin:0; font-size: 14px; font-weight:normal">Família de baixa renda</label>
         </div>
         <div class="linha-check">
             <input type="checkbox" name="trabalha" id="trabalha">
-            <label for="trabalha" style="margin:0; font-weight:normal">Aluno trabalha</label>
+            <label for="trabalha" style="margin:0; font-size: 14px; font-weight:normal">Aluno trabalha</label>
         </div>
 
-        <label>Notas do bimestre (deixe vazio se faltou):</label>
+        <label>Notas do bimestre (Deixe vazio se faltou):</label>
         <div class="grade-grid">
             <input type="number" name="nota1" min="0" max="10" step="0.1" placeholder="Nota 1">
             <input type="number" name="nota2" min="0" max="10" step="0.1" placeholder="Nota 2">
@@ -74,7 +79,7 @@
 </div>
 
 <br>
-<a href="/">← Voltar para a lista</a>
+<a href="/"> Voltar para a lista</a>
 
 </body>
 </html>
