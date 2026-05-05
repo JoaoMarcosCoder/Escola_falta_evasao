@@ -11,7 +11,6 @@ def ler_alunos():
 
     for i, linha in df.iterrows():
 
-        # Pega as notas usando range
         notas = []
         for numero in range(1,7):          
             coluna = "Nota" + str(numero)
@@ -35,7 +34,6 @@ def ler_alunos():
 
 def classificar_risco(media, frequencia, ocorrencias, baixa_renda, trabalha):
 
-    # VERMELHO - situações críticas
     if frequencia < 60:
         return "VERMELHO"
 
@@ -45,7 +43,6 @@ def classificar_risco(media, frequencia, ocorrencias, baixa_renda, trabalha):
     if ocorrencias >= 3 and frequencia < 75:
         return "VERMELHO"
 
-    # AMARELO - situações de atenção
     if frequencia < 75:
         return "AMARELO"
 
@@ -58,14 +55,11 @@ def classificar_risco(media, frequencia, ocorrencias, baixa_renda, trabalha):
     if baixa_renda and trabalha:
         return "AMARELO"
 
-    # VERDE - tudo certo
     return "VERDE"
 
 
 def analisar_notas(notas):
 
-    # Calcular média real ignorando zeros (faltas)
-    # O continue pula a nota zero e vai para a próxima
     soma    = 0
     validas = 0
 
@@ -81,7 +75,6 @@ def analisar_notas(notas):
     else:
         media_real = 0
 
-    # Calculo médias progressivas
     # A cada nota válida calcula a média até aquele momento
     medias_progressivas = []
     soma_ate            = 0
@@ -96,18 +89,15 @@ def analisar_notas(notas):
         media_ate = round(soma_ate / count_ate, 1)
         medias_progressivas.append(media_ate)
 
-    # Detectando quedas consecutivas
-    # O break para o loop quando encontra 3 quedas seguidas
+    
     notas_validas   = []
     quedas_seguidas = 0
     alerta_critico  = False
 
-    # Primeiro filtra os zeros
     for nota in notas:
         if nota != 0:
             notas_validas.append(nota)
 
-    # Agora percorre as notas válidas procurando quedas
     for i in range(1, len(notas_validas)):  
         if notas_validas[i] < notas_validas[i - 1]:
             quedas_seguidas = quedas_seguidas + 1
@@ -115,11 +105,9 @@ def analisar_notas(notas):
             if quedas_seguidas >= 3:
                 alerta_critico = True
                 break           
-
         else:
             quedas_seguidas = 0 
 
-    # Identificando tendência
     if len(notas_validas) < 2:
         tendencia = "ESTÁVEL"
     else:
