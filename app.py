@@ -199,6 +199,12 @@ def novo_aluno():
 
     return render_template("novo.html")
 
+@app.route("/excluir/<int:indice>")
+def excluir_aluno(indice):
+    df = pd.read_excel(PLANILHA)
+    df = df.drop(index=indice)
+    df.to_excel(PLANILHA, index=False)
+    return redirect("/")
 
 if __name__ == "__main__":
     app.run(debug=True)

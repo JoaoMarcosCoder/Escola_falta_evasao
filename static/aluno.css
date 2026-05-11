@@ -1,14 +1,15 @@
 body { 
     font-size: 16px; 
     font-family: Arial, sans-serif; 
-    margin: 30px; 
     background: #f8f9fa; 
     margin: 0; 
     padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 h1 {
-    color: #111183;
     background-color: #111184; 
     color: #f4f4f4; 
     padding: 30px;
@@ -26,6 +27,7 @@ h2 {
 section {
     margin-bottom: 30px; 
     text-align: left;
+    flex: 1;
     
 }
 
@@ -35,7 +37,7 @@ section {
     padding: 20px; 
     max-width: 600px;
     border-radius: 6px; 
-    margin-bottom: 20px;
+    margin: 0 auto 20px auto;
 }
 
 .caixa p {
@@ -64,14 +66,14 @@ section {
 }
 
 .alerta-critico {
-            background: #fdd; 
-            border: 2px solid red;
-            border-radius: 6px; 
-            padding: 15px;
-            margin-bottom: 14px; 
-            font-weight: bold; 
-            color: red;
-        }
+    background: #fdd; 
+    border: 2px solid red;
+    border-radius: 6px; 
+    padding: 15px;
+    margin-bottom: 14px; 
+    font-weight: bold; 
+    color: red;
+}
 
 .nota-linha { padding: 8px 0; font-size: 15px; }
 .nota-subiu  { color: green; }
@@ -80,41 +82,66 @@ section {
 .nota-falta  { color: #aaa; }
 
 .badge-media {
-            display: inline-block;
-            background: #e7f0ff; 
-            border: 1px solid #050709;
-            border-radius: 5px; 
-            padding: 5px 10px;
-            font-size: 15px; 
-            margin: 3px 2px;
-            color: #050709;
+    display: block;
+    display: inline-block;
+    background: #e7f0ff; 
+    border: 1px solid #050709;
+    border-radius: 5px; 
+    padding: 5px 10px;
+    font-size: 15px; 
+    margin: 3px 2px;
+    clear: #050709;
+}
+
+.btn-vermelho {
+    background: #d13239;
+    color: white;
+    display: block;
+    text-decoration: none;
+    font-size: 14px;
+    margin: 20px auto;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    
+}
+
+.btn-vermelho:hover {
+    background: #a0252a;
+}
+a:has(.btn-vermelho) {
+    text-decoration: none;
 }
 
 footer {
     /* configurações da estrutura */
     background-color: #111184;
-    margin-top: 10px;
-    margin-bottom: 100%;
     width: 100%;
-    border-radius: 25px 45px 0 0;
-    padding-top: 10px;
-    padding-bottom: 0px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin: 0;
-    padding: 0;
+    padding: 10px;
+    box-sizing: border-box;
 }
-h3 {
-     color: #111183;
-    background-color: #111184; 
-    color: #f4f4f4; 
-    padding: 30px;
-    font-size: 30px; 
-    font-weight: bold; 
-    text-align: left; 
-    margin-top: auto;
-    margin-bottom: 10px;
-} 
+
+footer a {
+    color: #ffffff;
+    background-color: #111184;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    display: inline-block;
+}
+
+footer a:hover {
+    background-color: #04043b;
+    color: #ffffff;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    display: inline-block;
+}
+
 
