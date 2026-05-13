@@ -5,6 +5,7 @@ app = Flask(__name__)
 
 PLANILHA = "Media_Alunos.escola.xlsx"
 
+# Função para ler os dados da planilha Excel e converter em uma lista de dicionários
 def ler_alunos():
     df = pd.read_excel(PLANILHA)
     alunos = []
@@ -32,6 +33,7 @@ def ler_alunos():
 
     return alunos
 
+# Define o nível de risco (Verde, Amarelo, Vermelho) com base em critérios acadêmicos e socioeconômicos
 def classificar_risco(media, frequencia, ocorrencias, baixa_renda, trabalha):
 
     if frequencia < 60:
@@ -58,6 +60,7 @@ def classificar_risco(media, frequencia, ocorrencias, baixa_renda, trabalha):
     return "VERDE"
 
 
+# Realiza cálculos estatísticos sobre as notas: média real, tendências e alertas de quedas sucessivas
 def analisar_notas(notas):
 
     soma    = 0
@@ -136,6 +139,7 @@ def analisar_notas(notas):
     }
 
 
+# Rota da página inicial: exibe a lista geral de todos os alunos cadastrados
 @app.route("/")
 def index():
     alunos = ler_alunos()
@@ -153,6 +157,7 @@ def index():
     return render_template("index.html", alunos=alunos)
 
 
+# Rota de detalhes: mostra informações aprofundadas e análise de notas de um aluno específico
 @app.route("/aluno/<int:indice>")
 def ver_aluno(indice):
     alunos = ler_alunos()
@@ -167,6 +172,7 @@ def ver_aluno(indice):
     return render_template("aluno.html", aluno=aluno)
 
 
+# Rota de cadastro: processa o formulário de inclusão de novos alunos na planilha
 @app.route("/novo", methods=["GET", "POST"])
 def novo_aluno():
     if request.method == "POST":
@@ -199,6 +205,7 @@ def novo_aluno():
 
     return render_template("novo.html")
 
+# Rota de exclusão: remove a linha correspondente ao aluno na planilha Excel
 @app.route("/excluir/<int:indice>")
 def excluir_aluno(indice):
     df = pd.read_excel(PLANILHA)
@@ -206,6 +213,7 @@ def excluir_aluno(indice):
     df.to_excel(PLANILHA, index=False)
     return redirect("/")
 
+# Rota de relatório: gera estatísticas agrupadas por série escolar para gestão pedagógica
 @app.route("/relatorio")
 def gerar_relatorio():
     alunos = ler_alunos()

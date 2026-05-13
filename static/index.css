@@ -1,3 +1,4 @@
+/* Configurações de layout e tipografia da página */
 body {
     font-family: Arial, sans-serif; 
     background: #f4f4f4; 
@@ -8,6 +9,7 @@ body {
     flex-direction: column;
 }
 
+/* Estilo do cabeçalho azul no topo */
 h1 {
     background-color: #111184; 
     color: #f4f4f4; 
@@ -28,6 +30,7 @@ h2 {
     margin-bottom: 20px;
 }
 
+/* Campo de busca */
 input[type="text"] {
     padding: 10px; 
     border: 1px solid #ccc; 
@@ -82,7 +85,7 @@ input[type="text"] {
     color: white; 
 }
 
-/* Botão Ver detalhes */
+/* Botão ver detalhes */
 .btn-azul     { 
     background: #111184; 
     color: white;  
@@ -129,12 +132,14 @@ table {
 
 }
 
+/* Células da tabela */
 th, td {
     border: 1px solid #ccc; 
     padding: 10px; 
     text-align: center; 
     font-size: 14px;
 }
+/* Cabeçalho da tabela */
 
 th {
     background: #111184; 
@@ -147,6 +152,7 @@ tr:hover {
     background: #c9c8c8; 
 }
 
+/* Cores para os indicadores de risco e tendências */
 .VERDE    { font-weight: bold; color: #008300; }
 .AMARELO  { font-weight: bold; color: #b8860b; }
 .VERMELHO { font-weight: bold; color: #d13239; }
@@ -156,7 +162,6 @@ tr:hover {
 .ESTÁVEL    { color: #b8860b; font-weight: bold; }
 
 /* Section */
-
 section{
     flex: 1;
     padding: 20px;
@@ -164,7 +169,7 @@ section{
     box-sizing: border-box;
 }
 
- /* Rodapé */
+/* Estilização do rodapé */
 footer {
     background-color: #111184;
     margin-top: 20px;

@@ -1,3 +1,4 @@
+/* Estilização do corpo da página */
 body { 
     font-size: 16px; 
     font-family: Arial, sans-serif; 
@@ -8,7 +9,7 @@ body {
     display: flex;
     flex-direction: column;
 }
-
+/* estilização do título */
 h1 {
     background-color: #111184; 
     color: #f4f4f4; 
@@ -20,17 +21,19 @@ h1 {
     margin-bottom: 10px;
 } 
 
-
+/* Estilização do subtítulo */
 h2 { 
     color: #111183; 
 }
 
+/* estilização das seções */
 section {
     margin-bottom: 30px; 
     text-align: left;
     flex: 1;
 }
 
+/* caixa deinformações individuais */
 .caixa {
     background: white; 
     border: 1px solid #ccc;
@@ -44,6 +47,8 @@ section {
     font-size: 18px; 
     margin: 8px 0; }
 
+
+/* Estilo da etiqueta de risco */
 .risco {
     font-size: 22px; 
     font-weight: bold;
@@ -57,6 +62,7 @@ section {
 .VERMELHO { background: #fdd;    color: red; }
 
 
+/* sugestão de ação */
 .acao {
     margin-top: 15px; 
     padding: 12px;
@@ -65,6 +71,7 @@ section {
     font-size: 16px;
 }
 
+/* Alerta de alunos com quedas sucessivas */
 .alerta-critico {
     background: #fdd; 
     border: 2px solid red;
@@ -81,6 +88,7 @@ section {
 .nota-igual  { color: #000000; }
 .nota-falta  { color: #aaa; }
 
+/* Destaque das médias progressivas */
 .badge-media {
     display: block;
     display: inline-block;
@@ -116,7 +124,7 @@ a:has(.btn-vermelho) {
 }
 
 footer {
-    /* configurações da estrutura */
+/* configurações da estrutura */
     background-color: #111184;
     width: 100%;
     padding: 10px;
@@ -143,5 +151,3 @@ footer a:hover {
     padding: 10px 20px;
     display: inline-block;
 }
-
-
